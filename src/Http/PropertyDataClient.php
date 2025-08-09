@@ -23,10 +23,15 @@ class PropertyDataClient
     use HandlesRetries;
 
     protected Client $httpClient;
+
     protected string $baseUrl;
+
     protected string $apiKey;
+
     protected int $timeout;
+
     protected bool $loggingEnabled;
+
     protected ?string $logChannel;
 
     public function __construct(array $config = [])
@@ -39,7 +44,7 @@ class PropertyDataClient
 
         $this->validateConfig();
         $this->initializeHttpClient();
-        
+
         // Configure retry settings
         $retryConfig = $config['retry'] ?? config('property-data.api.retry', []);
         $this->configureRetries($retryConfig);
@@ -48,9 +53,10 @@ class PropertyDataClient
     /**
      * Make a GET request to the Property Data API.
      *
-     * @param string $endpoint The API endpoint (without leading slash)
-     * @param array $queryParams Additional query parameters
+     * @param  string  $endpoint  The API endpoint (without leading slash)
+     * @param  array  $queryParams  Additional query parameters
      * @return array The decoded JSON response
+     *
      * @throws PropertyDataApiException
      */
     public function get(string $endpoint, array $queryParams = []): array
@@ -61,7 +67,8 @@ class PropertyDataClient
         $url = $this->buildUrl($endpoint);
 
         // Execute with retry logic for transient failures
-        return $this->executeWithRetry(function () use ($url, $queryParams) {
+        /** @var array */
+        return $this->executeWithRetry(function () use ($url, $queryParams): array {
             try {
                 $this->logRequest('GET', $url, $queryParams);
 
@@ -70,7 +77,7 @@ class PropertyDataClient
                 ]);
 
                 $data = $this->parseResponse($response);
-                
+
                 $this->logResponse($url, $response->getStatusCode(), $data);
 
                 return $data;
@@ -78,7 +85,7 @@ class PropertyDataClient
             } catch (ConnectException $e) {
                 $this->logError('Connection error', $e);
                 throw new PropertyDataConnectionException(
-                    'Unable to connect to Property Data API: ' . $e->getMessage(),
+                    'Unable to connect to Property Data API: '.$e->getMessage(),
                     0,
                     $e
                 );
@@ -89,7 +96,7 @@ class PropertyDataClient
                 $this->logError('Server error', $e);
                 $response = $e->getResponse();
                 throw new PropertyDataServerException(
-                    'Property Data API server error: ' . $e->getMessage(),
+                    'Property Data API server error: '.$e->getMessage(),
                     $response->getStatusCode(),
                     $e
                 );
@@ -98,7 +105,7 @@ class PropertyDataClient
                 $response = $e->getResponse();
                 $statusCode = $response ? $response->getStatusCode() : 0;
                 throw new PropertyDataApiException(
-                    'Property Data API request failed: ' . $e->getMessage(),
+                    'Property Data API request failed: '.$e->getMessage(),
                     $statusCode,
                     $e
                 );
@@ -109,7 +116,6 @@ class PropertyDataClient
     /**
      * Get account credits information.
      *
-     * @return array
      * @throws PropertyDataApiException
      */
     public function getAccountCredits(): array
@@ -120,13 +126,13 @@ class PropertyDataClient
     /**
      * Test the API connection and authentication.
      *
-     * @return bool
      * @throws PropertyDataApiException
      */
     public function testConnection(): bool
     {
         try {
             $this->getAccountCredits();
+
             return true;
         } catch (PropertyDataAuthenticationException) {
             return false;
@@ -148,7 +154,7 @@ class PropertyDataClient
             throw new PropertyDataApiException('Property Data API key is not configured');
         }
 
-        if (!filter_var($this->baseUrl, FILTER_VALIDATE_URL)) {
+        if (! filter_var($this->baseUrl, FILTER_VALIDATE_URL)) {
             throw new PropertyDataApiException('Invalid Property Data API base URL format');
         }
     }
@@ -170,20 +176,15 @@ class PropertyDataClient
 
     /**
      * Build the full URL for an endpoint.
-     *
-     * @param string $endpoint
-     * @return string
      */
     protected function buildUrl(string $endpoint): string
     {
-        return rtrim($this->baseUrl, '/') . '/' . ltrim($endpoint, '/');
+        return rtrim($this->baseUrl, '/').'/'.ltrim($endpoint, '/');
     }
 
     /**
      * Parse the API response.
      *
-     * @param ResponseInterface $response
-     * @return array
      * @throws PropertyDataApiException
      */
     protected function parseResponse(ResponseInterface $response): array
@@ -198,11 +199,11 @@ class PropertyDataClient
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new PropertyDataApiException(
-                'Invalid JSON response from Property Data API: ' . json_last_error_msg()
+                'Invalid JSON response from Property Data API: '.json_last_error_msg()
             );
         }
 
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             throw new PropertyDataApiException(
                 'Property Data API response is not a valid array'
             );
@@ -214,7 +215,6 @@ class PropertyDataClient
     /**
      * Handle client exceptions (4xx errors).
      *
-     * @param ClientException $e
      * @throws PropertyDataApiException
      */
     protected function handleClientException(ClientException $e): void
@@ -249,14 +249,10 @@ class PropertyDataClient
 
     /**
      * Log API request.
-     *
-     * @param string $method
-     * @param string $url
-     * @param array $params
      */
     protected function logRequest(string $method, string $url, array $params): void
     {
-        if (!$this->loggingEnabled) {
+        if (! $this->loggingEnabled) {
             return;
         }
 
@@ -275,14 +271,10 @@ class PropertyDataClient
 
     /**
      * Log API response.
-     *
-     * @param string $url
-     * @param int $statusCode
-     * @param array $data
      */
     protected function logResponse(string $url, int $statusCode, array $data): void
     {
-        if (!$this->loggingEnabled) {
+        if (! $this->loggingEnabled) {
             return;
         }
 
@@ -296,13 +288,10 @@ class PropertyDataClient
 
     /**
      * Log API error.
-     *
-     * @param string $message
-     * @param \Throwable $exception
      */
     protected function logError(string $message, \Throwable $exception): void
     {
-        if (!$this->loggingEnabled) {
+        if (! $this->loggingEnabled) {
             return;
         }
 

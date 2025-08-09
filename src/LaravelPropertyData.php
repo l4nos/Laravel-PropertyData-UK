@@ -21,7 +21,7 @@ class LaravelPropertyData
      */
     public function __construct(?PropertyDataClient $client = null)
     {
-        $this->client = $client ?? new PropertyDataClient();
+        $this->client = $client ?? new PropertyDataClient;
     }
 
     /**
@@ -50,6 +50,7 @@ class LaravelPropertyData
     public function addressMatchUprn(string $address): array
     {
         $this->validateAddress($address);
+
         return $this->client->get('address-match-uprn', ['address' => $address]);
     }
 
@@ -59,6 +60,7 @@ class LaravelPropertyData
     public function uprn(string $uprn): array
     {
         $this->validateUprn($uprn);
+
         return $this->client->get('uprn', ['uprn' => $uprn]);
     }
 
@@ -70,6 +72,7 @@ class LaravelPropertyData
         foreach ($uprns as $uprn) {
             $this->validateUprn($uprn);
         }
+
         return $this->client->get('uprns', ['uprns' => implode(',', $uprns)]);
     }
 
@@ -79,6 +82,7 @@ class LaravelPropertyData
     public function uprnTitle(string $uprn): array
     {
         $this->validateUprn($uprn);
+
         return $this->client->get('uprn-title', ['uprn' => $uprn]);
     }
 
@@ -92,6 +96,7 @@ class LaravelPropertyData
     public function analyseBuildings(string $title): array
     {
         $this->validateTitle($title);
+
         return $this->client->get('analyse-buildings', ['title' => $title]);
     }
 
@@ -106,7 +111,7 @@ class LaravelPropertyData
         if ($uprn !== null) {
             $this->validateUprn($uprn);
         }
-        
+
         $params = array_filter([
             'title' => $title,
             'uprn' => $uprn,
@@ -126,7 +131,7 @@ class LaravelPropertyData
         if ($uprn !== null) {
             $this->validateUprn($uprn);
         }
-        
+
         $params = array_filter([
             'title' => $title,
             'uprn' => $uprn,
@@ -141,6 +146,7 @@ class LaravelPropertyData
     public function floorAreas(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('floor-areas', ['postcode' => $postcode]);
     }
 
@@ -150,6 +156,7 @@ class LaravelPropertyData
     public function energyEfficiency(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('energy-efficiency', ['postcode' => $postcode]);
     }
 
@@ -164,7 +171,7 @@ class LaravelPropertyData
     {
         $this->validatePostcode($postcode);
         $this->validatePagination($page, $perPage);
-        
+
         return $this->client->get('prices', [
             'postcode' => $postcode,
             'page' => $page,
@@ -178,6 +185,7 @@ class LaravelPropertyData
     public function pricesPerSqf(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('prices-per-sqf', ['postcode' => $postcode]);
     }
 
@@ -188,7 +196,7 @@ class LaravelPropertyData
     {
         $this->validatePostcode($postcode);
         $this->validatePagination($page, $perPage);
-        
+
         return $this->client->get('sold-prices', [
             'postcode' => $postcode,
             'page' => $page,
@@ -202,6 +210,7 @@ class LaravelPropertyData
     public function soldPricesPerSqf(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('sold-prices-per-sqf', ['postcode' => $postcode]);
     }
 
@@ -211,6 +220,7 @@ class LaravelPropertyData
     public function rents(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('rents', ['postcode' => $postcode]);
     }
 
@@ -220,6 +230,7 @@ class LaravelPropertyData
     public function rentsHmo(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('rents-hmo', ['postcode' => $postcode]);
     }
 
@@ -229,6 +240,7 @@ class LaravelPropertyData
     public function yields(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('yields', ['postcode' => $postcode]);
     }
 
@@ -238,6 +250,7 @@ class LaravelPropertyData
     public function growth(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('growth', ['postcode' => $postcode]);
     }
 
@@ -247,6 +260,7 @@ class LaravelPropertyData
     public function growthPsf(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('growth-psf', ['postcode' => $postcode]);
     }
 
@@ -261,7 +275,7 @@ class LaravelPropertyData
             'w3w' => $w3w,
             'town' => $town,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -279,7 +293,7 @@ class LaravelPropertyData
             'w3w' => $w3w,
             'town' => $town,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -292,17 +306,17 @@ class LaravelPropertyData
     public function agents(?string $postcode = null, ?string $location = null, ?string $w3w = null, ?string $town = null, int $page = 1, int $perPage = 20): array
     {
         $this->validatePagination($page, $perPage);
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'location' => $location,
             'w3w' => $w3w,
             'town' => $town,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
-        
+
         $validated['page'] = $page;
         $validated['per_page'] = $perPage;
 
@@ -319,11 +333,11 @@ class LaravelPropertyData
     public function valuationSale(string $postcode, ?int $beds = null, ?float $sqft = null): array
     {
         $this->validatePostcode($postcode);
-        
+
         if ($sqft !== null) {
             $this->validatePositiveNumber($sqft, 'Square footage');
         }
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'beds' => $beds,
@@ -339,6 +353,7 @@ class LaravelPropertyData
     public function valuationRent(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('valuation-rent', ['postcode' => $postcode]);
     }
 
@@ -348,6 +363,7 @@ class LaravelPropertyData
     public function valuationHmo(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('valuation-hmo', ['postcode' => $postcode]);
     }
 
@@ -358,7 +374,7 @@ class LaravelPropertyData
     {
         $this->validatePostcode($postcode);
         $this->validatePagination($page, 20); // Use default per_page
-        
+
         return $this->client->get('valuation-historical', [
             'postcode' => $postcode,
             'page' => $page,
@@ -377,7 +393,7 @@ class LaravelPropertyData
         if ($maxAge !== null) {
             $this->validateMaxAge($maxAge);
         }
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'location' => $location,
@@ -386,9 +402,9 @@ class LaravelPropertyData
             'category' => $category,
             'max_age' => $maxAge,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
-        
+
         if ($decisionRating !== null) {
             $validated['decision_rating'] = $decisionRating->value;
         }
@@ -413,7 +429,7 @@ class LaravelPropertyData
             'w3w' => $w3w,
             'town' => $town,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -431,7 +447,7 @@ class LaravelPropertyData
             'w3w' => $w3w,
             'town' => $town,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -447,7 +463,7 @@ class LaravelPropertyData
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -463,7 +479,7 @@ class LaravelPropertyData
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -476,6 +492,7 @@ class LaravelPropertyData
     public function listedBuildings(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('listed-buildings', ['postcode' => $postcode]);
     }
 
@@ -489,6 +506,7 @@ class LaravelPropertyData
     public function areaType(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('area-type', ['postcode' => $postcode]);
     }
 
@@ -503,7 +521,7 @@ class LaravelPropertyData
             'w3w' => $w3w,
             'town' => $town,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -519,7 +537,7 @@ class LaravelPropertyData
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -535,7 +553,7 @@ class LaravelPropertyData
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -551,7 +569,7 @@ class LaravelPropertyData
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -564,6 +582,7 @@ class LaravelPropertyData
     public function householdIncome(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('household-income', ['postcode' => $postcode]);
     }
 
@@ -573,6 +592,7 @@ class LaravelPropertyData
     public function internetSpeed(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('internet-speed', ['postcode' => $postcode]);
     }
 
@@ -582,6 +602,7 @@ class LaravelPropertyData
     public function lhaRate(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('lha-rate', ['postcode' => $postcode]);
     }
 
@@ -591,6 +612,7 @@ class LaravelPropertyData
     public function population(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('population', ['postcode' => $postcode]);
     }
 
@@ -600,6 +622,7 @@ class LaravelPropertyData
     public function politics(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('politics', ['postcode' => $postcode]);
     }
 
@@ -609,6 +632,7 @@ class LaravelPropertyData
     public function ptal(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('ptal', ['postcode' => $postcode]);
     }
 
@@ -618,6 +642,7 @@ class LaravelPropertyData
     public function postcodeKeyStats(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('postcode-key-stats', ['postcode' => $postcode]);
     }
 
@@ -631,7 +656,7 @@ class LaravelPropertyData
     public function sourcedProperties(int $page = 1, int $perPage = 20): array
     {
         $this->validatePagination($page, $perPage);
-        
+
         return $this->client->get('sourced-properties', [
             'page' => $page,
             'per_page' => $perPage,
@@ -656,15 +681,15 @@ class LaravelPropertyData
     public function restaurants(?string $postcode = null, ?string $location = null, int $page = 1, int $perPage = 20): array
     {
         $this->validatePagination($page, $perPage);
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
-        
+
         $validated['page'] = $page;
         $validated['per_page'] = $perPage;
 
@@ -680,7 +705,7 @@ class LaravelPropertyData
             'postcode' => $postcode,
             'location' => $location,
         ]);
-        
+
         $validated = $this->validateLocationParams($params);
         $this->validateLocationRequired($validated);
 
@@ -702,7 +727,7 @@ class LaravelPropertyData
         if ($uprn !== null) {
             $this->validateUprn($uprn);
         }
-        
+
         $params = array_filter([
             'title' => $title,
             'uprn' => $uprn,
@@ -718,7 +743,7 @@ class LaravelPropertyData
     {
         $this->validatePostcode($postcode);
         $this->validatePagination($page, $perPage);
-        
+
         return $this->client->get('site-plan-documents', [
             'postcode' => $postcode,
             'page' => $page,
@@ -736,6 +761,7 @@ class LaravelPropertyData
     public function freeholds(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('freeholds', ['postcode' => $postcode]);
     }
 
@@ -745,6 +771,7 @@ class LaravelPropertyData
     public function nationalHmoRegister(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('national-hmo-register', ['postcode' => $postcode]);
     }
 
@@ -768,7 +795,7 @@ class LaravelPropertyData
         $this->validatePositiveNumber($purchasePrice, 'Purchase price');
         $this->validatePositiveNumber($sqftPreDevelopment, 'Pre-development square footage');
         $this->validatePositiveNumber($sqftPostDevelopment, 'Post-development square footage');
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'town' => $town,
@@ -799,7 +826,7 @@ class LaravelPropertyData
         int $terracedHouse5 = 0
     ): array {
         $this->validatePostcode($postcode);
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'town' => $town,
@@ -834,7 +861,7 @@ class LaravelPropertyData
         if ($termYears !== null && $termYears <= 0) {
             throw new \InvalidArgumentException('Term years must be positive');
         }
-        
+
         $params = array_filter([
             'price' => $price,
             'deposit' => $deposit,
@@ -861,7 +888,7 @@ class LaravelPropertyData
         $this->validatePostcode($postcode);
         $this->validateInternalArea($internalArea);
         $this->validateStoreys($storeys);
-        
+
         $params = array_filter([
             'postcode' => $postcode,
             'internal_area' => $internalArea,
@@ -882,7 +909,7 @@ class LaravelPropertyData
         if ($price !== null) {
             $this->validatePositiveNumber($price, 'Price');
         }
-        
+
         $params = array_filter([
             'price' => $price,
             'buyer_type' => $buyerType,
@@ -897,6 +924,7 @@ class LaravelPropertyData
     public function buildCost(string $postcode): array
     {
         $this->validatePostcode($postcode);
+
         return $this->client->get('build-cost', ['postcode' => $postcode]);
     }
 
@@ -918,7 +946,7 @@ class LaravelPropertyData
     public function accountDocuments(int $page = 1, int $perPage = 20): array
     {
         $this->validatePagination($page, $perPage);
-        
+
         return $this->client->get('account/documents', [
             'page' => $page,
             'per_page' => $perPage,

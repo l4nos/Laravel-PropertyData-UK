@@ -28,14 +28,15 @@ trait HandlesRetries
     /**
      * Execute a callback with retry logic for transient failures.
      *
-     * @param callable $callback The callback to execute
-     * @param int|null $maxAttempts Maximum number of attempts (null to use default)
+     * @param  callable  $callback  The callback to execute
+     * @param  int|null  $maxAttempts  Maximum number of attempts (null to use default)
      * @return mixed The result of the callback
+     *
      * @throws Throwable
      */
     protected function executeWithRetry(callable $callback, ?int $maxAttempts = null): mixed
     {
-        if (!$this->retryEnabled) {
+        if (! $this->retryEnabled) {
             return $callback();
         }
 
@@ -46,7 +47,7 @@ trait HandlesRetries
         while ($attempts < $maxAttempts) {
             try {
                 return $callback();
-            } catch (PropertyDataConnectionException | PropertyDataServerException $e) {
+            } catch (PropertyDataConnectionException|PropertyDataServerException $e) {
                 $lastException = $e;
                 $attempts++;
 
@@ -71,25 +72,25 @@ trait HandlesRetries
     /**
      * Handle the delay between retry attempts.
      *
-     * @param int $attempt Current attempt number
+     * @param  int  $attempt  Current attempt number
      */
     protected function handleRetryDelay(int $attempt): void
     {
         // Exponential backoff: delay = base * 2^(attempt - 1)
         $delay = $this->retryDelay * pow(2, $attempt - 1);
-        
+
         // Cap the delay at 30 seconds
         $delay = min($delay, 30);
-        
+
         sleep((int) $delay);
     }
 
     /**
      * Log a retry attempt.
      *
-     * @param int $attempt Current attempt number
-     * @param int $maxAttempts Maximum number of attempts
-     * @param Throwable $exception The exception that triggered the retry
+     * @param  int  $attempt  Current attempt number
+     * @param  int  $maxAttempts  Maximum number of attempts
+     * @param  Throwable  $exception  The exception that triggered the retry
      */
     protected function logRetryAttempt(int $attempt, int $maxAttempts, Throwable $exception): void
     {
@@ -110,8 +111,8 @@ trait HandlesRetries
     /**
      * Log when all retry attempts have failed.
      *
-     * @param int $attempts Total number of attempts made
-     * @param Throwable $exception The final exception
+     * @param  int  $attempts  Total number of attempts made
+     * @param  Throwable  $exception  The final exception
      */
     protected function logRetryFailure(int $attempts, Throwable $exception): void
     {
@@ -130,45 +131,36 @@ trait HandlesRetries
 
     /**
      * Set the maximum number of retry attempts.
-     *
-     * @param int $attempts
-     * @return self
      */
     public function setMaxRetryAttempts(int $attempts): self
     {
         $this->maxRetryAttempts = max(1, $attempts);
+
         return $this;
     }
 
     /**
      * Set the base retry delay in seconds.
-     *
-     * @param int $seconds
-     * @return self
      */
     public function setRetryDelay(int $seconds): self
     {
         $this->retryDelay = max(1, $seconds);
+
         return $this;
     }
 
     /**
      * Enable or disable retry logic.
-     *
-     * @param bool $enabled
-     * @return self
      */
     public function setRetryEnabled(bool $enabled): self
     {
         $this->retryEnabled = $enabled;
+
         return $this;
     }
 
     /**
      * Configure retry settings from config array.
-     *
-     * @param array $config
-     * @return self
      */
     protected function configureRetries(array $config): self
     {

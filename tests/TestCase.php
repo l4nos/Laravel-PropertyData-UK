@@ -20,7 +20,7 @@ class TestCase extends Orchestra
     /**
      * Get package providers.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
      */
     protected function getPackageProviders($app): array
@@ -33,13 +33,12 @@ class TestCase extends Orchestra
     /**
      * Define environment setup.
      *
-     * @param \Illuminate\Foundation\Application $app
-     * @return void
+     * @param  \Illuminate\Foundation\Application  $app
      */
     public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
-        
+
         // Set up configuration for testing
         config()->set('property-data.api.key', 'test-api-key');
         config()->set('property-data.api.base_url', 'https://api.test.propertydata.co.uk');

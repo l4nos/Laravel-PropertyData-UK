@@ -15,7 +15,7 @@ class LaravelPropertyDataServiceProvider extends ServiceProvider
     {
         // Merge package configuration
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/property-data.php',
+            __DIR__.'/../config/property-data.php',
             'property-data'
         );
 
@@ -49,7 +49,7 @@ class LaravelPropertyDataServiceProvider extends ServiceProvider
         // Publishing configuration
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/property-data.php' => config_path('property-data.php'),
+                __DIR__.'/../config/property-data.php' => config_path('property-data.php'),
             ], 'property-data-config');
         }
     }

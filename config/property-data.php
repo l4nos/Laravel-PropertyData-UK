@@ -25,7 +25,7 @@ return [
         'base_url' => env('PROPERTY_DATA_API_URL', 'https://api.propertydata.co.uk'),
         'key' => env('PROPERTY_DATA_API_KEY', ''),
         'timeout' => env('PROPERTY_DATA_API_TIMEOUT', 30),
-        
+
         /*
         |--------------------------------------------------------------------------
         | Retry Configuration

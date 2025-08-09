@@ -44,9 +44,9 @@ class ServiceProviderTest extends TestCase
     public function it_provides_correct_services(): void
     {
         $provider = new LaravelPropertyDataServiceProvider($this->app);
-        
+
         $provides = $provider->provides();
-        
+
         $this->assertContains('laravel-property-data', $provides);
     }
 
@@ -92,7 +92,7 @@ class ServiceProviderTest extends TestCase
 
         // Use reflection to check the client was configured correctly
         $reflection = new \ReflectionClass($client);
-        
+
         $baseUrlProperty = $reflection->getProperty('baseUrl');
         $baseUrlProperty->setAccessible(true);
         $this->assertEquals('https://test.api.com', $baseUrlProperty->getValue($client));

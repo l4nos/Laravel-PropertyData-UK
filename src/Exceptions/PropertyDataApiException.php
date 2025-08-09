@@ -10,10 +10,6 @@ class PropertyDataApiException extends Exception
 {
     /**
      * Create a new PropertyDataApiException instance.
-     *
-     * @param string $message
-     * @param int $code
-     * @param \Throwable|null $previous
      */
     public function __construct(string $message = '', int $code = 0, ?\Throwable $previous = null)
     {
@@ -22,8 +18,6 @@ class PropertyDataApiException extends Exception
 
     /**
      * Get the exception context for logging.
-     *
-     * @return array
      */
     public function getContext(): array
     {

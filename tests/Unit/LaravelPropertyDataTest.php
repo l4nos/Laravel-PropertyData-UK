@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace Lanos\LaravelPropertyData\Tests\Unit;
 
+use Lanos\LaravelPropertyData\Enums\DecisionRating;
+use Lanos\LaravelPropertyData\Enums\FinishQuality;
+use Lanos\LaravelPropertyData\Enums\ProjectType;
 use Lanos\LaravelPropertyData\Http\PropertyDataClient;
 use Lanos\LaravelPropertyData\LaravelPropertyData;
 use Lanos\LaravelPropertyData\Tests\TestCase;
-use Lanos\LaravelPropertyData\Enums\ProjectType;
-use Lanos\LaravelPropertyData\Enums\FinishQuality;
-use Lanos\LaravelPropertyData\Enums\DecisionRating;
 use Mockery;
 use Mockery\MockInterface;
 
 class LaravelPropertyDataTest extends TestCase
 {
     private LaravelPropertyData $propertyData;
+
     private PropertyDataClient&MockInterface $client;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->client = Mockery::mock(PropertyDataClient::class);
         $this->propertyData = new LaravelPropertyData($this->client);
     }
@@ -49,7 +50,7 @@ class LaravelPropertyDataTest extends TestCase
     public function it_makes_address_match_uprn_request(): void
     {
         $expectedResponse = [
-            ['uprn' => '123456', 'address' => '123 Test Street']
+            ['uprn' => '123456', 'address' => '123 Test Street'],
         ];
 
         $this->client
@@ -84,7 +85,7 @@ class LaravelPropertyDataTest extends TestCase
     {
         $expectedResponse = [
             ['uprn' => '123456', 'address' => '123 Test Street'],
-            ['uprn' => '789012', 'address' => '456 Test Avenue']
+            ['uprn' => '789012', 'address' => '456 Test Avenue'],
         ];
 
         $this->client
@@ -109,7 +110,7 @@ class LaravelPropertyDataTest extends TestCase
             ->with('prices', [
                 'postcode' => 'SW1A 1AA',
                 'page' => 2,
-                'per_page' => 50
+                'per_page' => 50,
             ])
             ->andReturn($expectedResponse);
 
@@ -128,7 +129,7 @@ class LaravelPropertyDataTest extends TestCase
             ->once()
             ->with('demand', [
                 'postcode' => 'SW1A 1AA',
-                'location' => '51.501,-0.141'
+                'location' => '51.501,-0.141',
             ])
             ->andReturn($expectedResponse);
 
@@ -172,7 +173,7 @@ class LaravelPropertyDataTest extends TestCase
             ->with('valuation-sale', [
                 'postcode' => 'SW1A 1AA',
                 'beds' => 3,
-                'sqft' => 1200.5
+                'sqft' => 1200.5,
             ])
             ->andReturn($expectedResponse);
 
@@ -195,7 +196,7 @@ class LaravelPropertyDataTest extends TestCase
                 'sqft_pre_development' => 1000,
                 'sqft_post_development' => 1500,
                 'project_type' => 'refurbish',
-                'finish_quality' => 'premium'
+                'finish_quality' => 'premium',
             ])
             ->andReturn($expectedResponse);
 
@@ -223,7 +224,7 @@ class LaravelPropertyDataTest extends TestCase
                 'postcode' => 'SW1A 1AA',
                 'decision_rating' => 'positive',
                 'category' => 'residential,commercial',
-                'max_age' => 365
+                'max_age' => 365,
             ])
             ->andReturn($expectedResponse);
 

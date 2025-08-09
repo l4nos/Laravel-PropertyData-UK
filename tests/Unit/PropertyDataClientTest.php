@@ -10,7 +10,6 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Facades\Log;
 use Lanos\LaravelPropertyData\Exceptions\PropertyDataApiException;
 use Lanos\LaravelPropertyData\Exceptions\PropertyDataAuthenticationException;
 use Lanos\LaravelPropertyData\Exceptions\PropertyDataConnectionException;
@@ -24,12 +23,13 @@ use Mockery\MockInterface;
 class PropertyDataClientTest extends TestCase
 {
     private PropertyDataClient $client;
+
     private Client&MockInterface $httpClient;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->httpClient = Mockery::mock(Client::class);
         $this->client = new PropertyDataClient([
             'base_url' => 'https://api.test.propertydata.co.uk',
@@ -55,7 +55,7 @@ class PropertyDataClientTest extends TestCase
             ->shouldReceive('get')
             ->once()
             ->with('https://api.test.propertydata.co.uk/test-endpoint', [
-                'query' => ['api_key' => 'test-api-key', 'postcode' => 'SW1A 1AA']
+                'query' => ['api_key' => 'test-api-key', 'postcode' => 'SW1A 1AA'],
             ])
             ->andReturn($response);
 
@@ -211,7 +211,7 @@ class PropertyDataClientTest extends TestCase
             ->shouldReceive('get')
             ->once()
             ->with('https://api.test.propertydata.co.uk/account/credits', [
-                'query' => ['api_key' => 'test-api-key']
+                'query' => ['api_key' => 'test-api-key'],
             ])
             ->andReturn($response);
 

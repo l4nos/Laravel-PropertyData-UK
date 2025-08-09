@@ -4,6 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/lanos/laravel-property-data.svg?style=flat-square)](https://packagist.org/packages/lanos/laravel-property-data)
 [![PHP Version](https://img.shields.io/packagist/php-v/lanos/laravel-property-data.svg?style=flat-square)](https://packagist.org/packages/lanos/laravel-property-data)
 [![Laravel Version](https://img.shields.io/badge/Laravel-10.x%20%7C%2011.x-orange.svg?style=flat-square)](https://laravel.com)
+[![Tests](https://github.com/l4nos/Laravel-PropertyData-UK/actions/workflows/tests.yml/badge.svg)](https://github.com/l4nos/Laravel-PropertyData-UK/actions/workflows/tests.yml)
 
 A comprehensive Laravel package for integrating with the PropertyData UK property data API. This package provides a clean, intuitive interface for accessing UK property market data, valuations, planning information, and area analytics.
 

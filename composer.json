@@ -1,0 +1,74 @@
+{
+    "name": "lanos/laravel-property-data",
+    "description": "A Laravel package for handling UK property data",
+    "keywords": [
+        "laravel",
+        "property",
+        "data",
+        "uk",
+        "real-estate"
+    ],
+    "homepage": "https://github.com/l4nos/laravel-property-data",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "L4nos",
+            "email": "contact@l4nos.dev",
+            "homepage": "https://github.com/l4nos",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/contracts": "^10.0|^11.0",
+        "illuminate/support": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^7.0|^8.0",
+        "orchestra/testbench": "^8.0|^9.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lanos\\LaravelPropertyData\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lanos\\LaravelPropertyData\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lanos\\LaravelPropertyData\\LaravelPropertyDataServiceProvider"
+            ],
+            "aliases": {
+                "PropertyData": "Lanos\\LaravelPropertyData\\Facades\\PropertyData"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,43 @@
+# Composer
+/vendor/
+composer.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.phpunit.result.cache
+.phpunit.cache/
+coverage/
+phpunit.xml.bak
+.env.testing
+
+# Build artifacts
+build/
+dist/
+*.log
+
+# Laravel specific
+.env
+.env.backup
+.env.production
+
+# PHP CS Fixer
+.php-cs-fixer.cache
+.php_cs.cache
+
+# PHPStan
+phpstan.neon.dist
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Documentation
+docs/_build/

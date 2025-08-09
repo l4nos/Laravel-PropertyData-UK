@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Lanos\LaravelPropertyData\Exceptions;
+
+class PropertyDataConnectionException extends PropertyDataApiException
+{
+    //
+}
